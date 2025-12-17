@@ -2,6 +2,11 @@
 
 This project is a professional CV/Resume generator designed for integration into a web portfolio. Built with React and TypeScript, it allows for easy personalization and maintenance through a centralized data file. It also includes functionality to download the CV as a PDF.
 
+## Features
+
+-   **PDF Download**: Generate and download your CV as a professional PDF document.
+-   **Dark Mode Toggle**: Switch between light and dark themes for enhanced viewing comfort.
+
 ## Project Architecture
 
 The application follows a simple component-based architecture using React, with TypeScript for strong data typing. The structure is designed to be modular and scalable.
@@ -51,7 +56,7 @@ The application follows a simple component-based architecture using React, with 
 
 -   **Framework**: React with Vite
 -   **Language**: TypeScript
--   **Styling**: Tailwind CSS
+-   **Styling**: Tailwind CSS (configured for class-based dark mode)
 -   **Icons**: `lucide-react` for lightweight SVG icons.
 -   **PDF Export**: `react-to-print` for converting the CV to a printable PDF.
 
