@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { Download } from 'lucide-react';
+import { Download, Moon } from 'lucide-react';
 import { cvData } from './cv-data';
 import { WorkExperience as WorkExperienceType, Education as EducationType } from './types/cv';
 import CvHeader from './components/CvHeader';
@@ -15,6 +15,12 @@ import './App.css';
 
 function App() {
   const componentRef = useRef<HTMLDivElement>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark', !isDarkMode);
+  };
 
   const handleDownloadPdf = async () => {
     const element = componentRef.current;
@@ -43,7 +49,7 @@ function App() {
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
     }
-    
+
     pdf.save(`${cvData.personalData.name.replace(/\s/g, '_')}_CV.pdf`);
   };
 
@@ -54,12 +60,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div ref={componentRef} className="max-w-4xl mx-auto bg-white shadow-lg">
+    <div className={`min-h-screen bg-gray-50 p-8 ${isDarkMode ? 'dark bg-gray-900' : ''}`}>
+      <div ref={componentRef} className="max-w-4xl mx-auto bg-white shadow-lg dark:bg-gray-800 dark:text-gray-200">
         <CvHeader personalData={cvData.personalData} />
         <div className="p-8 space-y-8">
           <CvSection title="PROFESSIONAL PROFILE">
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed dark:text-gray-300">
               {cvData.professionalProfile.summary}
             </p>
           </CvSection>
@@ -80,7 +86,7 @@ function App() {
             <Projects projects={cvData.projects} />
           </CvSection>
           <CvSection title="CONTINUOUS LEARNING & CERTIFICATIONS">
-            <ul className="space-y-2 text-sm text-gray-700">
+            <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
               {cvData.continuousLearning.map((item: string, index: number) => (
                 <li key={index}>• {item}</li>
               ))}
@@ -90,7 +96,7 @@ function App() {
             <Languages languages={cvData.languages} />
           </CvSection>
           <CvSection title="ADDITIONAL INFORMATION">
-            <div className="space-y-2 text-sm text-gray-700">
+            <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
               {cvData.additionalInfo.map((item: string, index: number) => (
                 <p key={index}>{item}</p>
               ))}
@@ -99,19 +105,28 @@ function App() {
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-100 p-6 text-center text-sm text-gray-600 border-t-2 border-blue-900">
+        <div className="bg-gray-100 p-6 text-center text-sm text-gray-600 border-t-2 border-blue-900 dark:bg-gray-700 dark:text-gray-300 dark:border-blue-700">
           <p className="mb-2">This Europass CV has been prepared for the FIMA Program application</p>
           <p>Goethe-Institut Mexico & Federal Employment Agency of Germany</p>
           <p className="mt-2 text-xs">Date: {getFormattedDate()} | Format: Europass Standard</p>
         </div>
       </div>
+      {/* Action Buttons */}
+      <div className="fixed bottom-4 right-4 flex flex-col space-y-2">
+        {/* Dark Mode Toggle Button */}
+        <button
+          onClick={toggleDarkMode}
+          className="bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-600"
+          aria-label="Toggle dark mode"
+        >
+          <Moon className="w-6 h-6" />
+        </button>
+
         {/* Download Button */}
-        <div className="p-4 bg-blue-900 text-center">
-          <button onClick={handleDownloadPdf} className="bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition flex items-center gap-2 mx-auto">
-            <Download className="w-5 h-5" />
-            Download as PDF
-          </button>
-        </div>
+        <button onClick={handleDownloadPdf} className="bg-blue-900 text-white p-3 rounded-full shadow-lg hover:bg-blue-800 transition-colors flex items-center justify-center">
+          <Download className="w-6 h-6" />
+        </button>
+      </div>
     </div>
   );
 }

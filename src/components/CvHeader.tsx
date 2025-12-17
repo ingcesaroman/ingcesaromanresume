@@ -20,29 +20,29 @@ export default function CvHeader({ personalData }: CvHeaderProps) {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4 p-8 bg-gray-50 border-b-2 border-blue-900">
+      <div className="grid grid-cols-2 gap-4 p-8 bg-gray-50 border-b-2 border-blue-900 dark:bg-gray-700 dark:border-blue-700">
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-sm">
-            <Mail className="w-4 h-4 text-blue-900" />
-            <span>{personalData.email}</span>
+            <Mail className="w-4 h-4 text-blue-900 dark:text-blue-300" />
+            <span className="dark:text-gray-300">{personalData.email}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <MapPin className="w-4 h-4 text-blue-900" />
-            <span>{personalData.location}</span>
+            <MapPin className="w-4 h-4 text-blue-900 dark:text-blue-300" />
+            <span className="dark:text-gray-300">{personalData.location}</span>
           </div>
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-sm">
-            <Github className="w-4 h-4 text-blue-900" />
-            <span>{personalData.github}</span>
+            <Github className="w-4 h-4 text-blue-900 dark:text-blue-300" />
+            <span className="dark:text-gray-300">{personalData.github}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <Linkedin className="w-4 h-4 text-blue-900" />
-            <span>{personalData.linkedin}</span>
+            <Linkedin className="w-4 h-4 text-blue-900 dark:text-blue-300" />
+            <span className="dark:text-gray-300">{personalData.linkedin}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <Globe className="w-4 h-4 text-blue-900" />
-            <span>Nationality: {personalData.nationality}</span>
+            <Globe className="w-4 h-4 text-blue-900 dark:text-blue-300" />
+            <span className="dark:text-gray-300">Nationality: {personalData.nationality}</span>
           </div>
         </div>
       </div>
