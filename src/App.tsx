@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
+import { useRef } from 'react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { Download } from 'lucide-react';
 import { cvData } from './cv-data';
 import { WorkExperience as WorkExperienceType, Education as EducationType } from './types/cv';
@@ -15,11 +16,36 @@ import './App.css';
 function App() {
   const componentRef = useRef<HTMLDivElement>(null);
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: `${cvData.personalData.name.replace(/\s/g, '_')}_CV`,
-    pageStyle: `@page { size: A4; margin: 20mm; }`, // Optional: add page styling
-  });
+  const handleDownloadPdf = async () => {
+    const element = componentRef.current;
+    if (!element) {
+      console.error("No element to print.");
+      return;
+    }
+
+    const canvas = await html2canvas(element, { scale: 2 }); // Scale for better resolution
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4'); // 'p' for portrait, 'mm' for millimeters, 'a4' for A4 size
+    const imgWidth = 210; // A4 width in mm
+    const pageHeight = 297; // A4 height in mm
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    let heightLeft = imgHeight;
+
+    let position = 0;
+
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+    
+    pdf.save(`${cvData.personalData.name.replace(/\s/g, '_')}_CV.pdf`);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -75,7 +101,7 @@ function App() {
       </div>
         {/* Download Button */}
         <div className="p-4 bg-blue-900 text-center">
-          <button onClick={handlePrint} className="bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition flex items-center gap-2 mx-auto">
+          <button onClick={handleDownloadPdf} className="bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition flex items-center gap-2 mx-auto">
             <Download className="w-5 h-5" />
             Download as PDF
           </button>

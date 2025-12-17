@@ -53,7 +53,7 @@ The application follows a simple component-based architecture using React, with 
 -   **Language**: TypeScript
 -   **Styling**: Tailwind CSS
 -   **Icons**: `lucide-react` for lightweight SVG icons.
--   **PDF Export**: `react-to-print` for converting the CV to a printable PDF.
+-   **PDF Export**: `html2canvas` and `jspdf` for generating and downloading the CV as a PDF.
 
 ## Getting Started
 
