@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Download, Moon } from 'lucide-react';
 import HeaderMenu from './components/HeaderMenu';
-import { cvData } from './cv-data';
+import { cvData_es } from './cv-data_es';
 import { WorkExperience as WorkExperienceType, Education as EducationType } from './types/cv';
 import CvHeader from './components/CvHeader';
 import Languages from './components/Languages';
@@ -14,7 +14,7 @@ import WorkExperience from './components/WorkExperience';
 import CvSection from './components/CvSection';
 import './App.css';
 
-function App() {
+function App_es() {
   const componentRef = useRef<HTMLDivElement>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -26,7 +26,7 @@ function App() {
   const handleDownloadPdf = async () => {
     const element = componentRef.current;
     if (!element) {
-      console.error("No element to print.");
+      console.error("No se pudo encontrar el elemento para imprimir.");
       return;
     }
 
@@ -50,50 +50,56 @@ function App() {
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
     }
+    
+    pdf.save(`${cvData_es.personalData.name.replace(/\s/g, '_')}_CV.pdf`);
+  };
 
-    pdf.save(`${cvData.personalData.name.replace(/\s/g, '_')}_CV.pdf`);
+  const getFormattedDate = () => {
+    const date = new Date();
+    const options: Intl.DateTimeFormatOptions = { month: 'long', year: 'numeric' };
+    return date.toLocaleString('es-ES', options);
   };
 
   return (
     <div className={`min-h-screen bg-gray-50 p-8 ${isDarkMode ? 'dark bg-gray-900' : ''}`}>
       <HeaderMenu />
       <div ref={componentRef} className="max-w-4xl mx-auto bg-white shadow-lg dark:bg-gray-800 dark:text-gray-200">
-        <CvHeader personalData={cvData.personalData} />
+        <CvHeader personalData={cvData_es.personalData} />
         <div className="p-8 space-y-8">
-          <CvSection title="PROFESSIONAL PROFILE">
+          <CvSection title="PERFIL PROFESIONAL">
             <p className="text-gray-700 leading-relaxed dark:text-gray-300">
-              {cvData.professionalProfile.summary}
+              {cvData_es.professionalProfile.summary}
             </p>
           </CvSection>
-          <CvSection title="WORK EXPERIENCE">
-            {cvData.workExperience.map((experience: WorkExperienceType, index: number) => (
+          <CvSection title="EXPERIENCIA LABORAL">
+            {cvData_es.workExperience.map((experience: WorkExperienceType, index: number) => (
               <WorkExperience key={index} experience={experience} />
             ))}
           </CvSection>
-          <CvSection title="EDUCATION">
-            {cvData.education.map((education: EducationType, index: number) => (
+          <CvSection title="EDUCACIÓN">
+            {cvData_es.education.map((education: EducationType, index: number) => (
               <Education key={index} education={education} />
             ))}
           </CvSection>
-          <CvSection title="TECHNICAL SKILLS">
-            <TechnicalSkills skills={cvData.technicalSkills} />
+          <CvSection title="HABILIDADES TÉCNICAS">
+            <TechnicalSkills skills={cvData_es.technicalSkills} />
           </CvSection>
-          <CvSection title="PROJECTS & ACHIEVEMENTS">
-            <Projects projects={cvData.projects} />
+          <CvSection title="PROYECTOS Y LOGROS">
+            <Projects projects={cvData_es.projects} />
           </CvSection>
-          <CvSection title="CONTINUOUS LEARNING & CERTIFICATIONS">
+          <CvSection title="APRENDIZAJE CONTINUO Y CERTIFICACIONES">
             <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-              {cvData.continuousLearning.map((item: string, index: number) => (
+              {cvData_es.continuousLearning.map((item: string, index: number) => (
                 <li key={index}>• {item}</li>
               ))}
             </ul>
           </CvSection>
-          <CvSection title="LANGUAGE SKILLS">
-            <Languages languages={cvData.languages} />
+          <CvSection title="HABILIDADES LINGÜÍSTICAS">
+            <Languages languages={cvData_es.languages} />
           </CvSection>
-          <CvSection title="ADDITIONAL INFORMATION">
+          <CvSection title="INFORMACIÓN ADICIONAL">
             <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-              {cvData.additionalInfo.map((item: string, index: number) => (
+              {cvData_es.additionalInfo.map((item: string, index: number) => (
                 <p key={index}>{item}</p>
               ))}
             </div>
@@ -102,9 +108,9 @@ function App() {
 
         {/* Footer */}
         <div className="bg-gray-100 p-6 text-center text-sm text-gray-600 border-t-2 border-blue-900 dark:bg-gray-700 dark:text-gray-300 dark:border-blue-700">
-          <p className="mb-2">This Europass CV has been prepared for the FIMA Program application</p>
-          <p>Goethe-Institut Mexico & Federal Employment Agency of Germany</p>
-          <p className="mt-2 text-xs">Date: December 2024 | Format: Europass Standard</p>
+          <p className="mb-2">Este CV Europass ha sido preparado para la aplicación al Programa FIMA</p>
+          <p>Goethe-Institut México y Agencia Federal de Empleo de Alemania</p>
+          <p className="mt-2 text-xs">Fecha: {getFormattedDate()} | Formato: Europass Standard</p>
         </div>
       </div>
       {/* Action Buttons */}
@@ -113,7 +119,7 @@ function App() {
         <button
           onClick={toggleDarkMode}
           className="bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-600"
-          aria-label="Toggle dark mode"
+          aria-label="Alternar modo oscuro"
         >
           <Moon className="w-6 h-6" />
         </button>
@@ -127,4 +133,4 @@ function App() {
   );
 }
 
-export default App;
+export default App_es;

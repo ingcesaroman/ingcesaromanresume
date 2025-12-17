@@ -6,6 +6,7 @@ This project is a professional CV/Resume generator designed for integration into
 
 -   **PDF Download**: Generate and download your CV as a professional PDF document.
 -   **Dark Mode Toggle**: Switch between light and dark themes for enhanced viewing comfort.
+-   **Multi-language Support**: View the CV in English (`/`), Spanish (`/es`), or German (`/de`) with a convenient language switcher.
 
 ## Project Architecture
 
@@ -56,6 +57,7 @@ The application follows a simple component-based architecture using React, with 
 
 -   **Framework**: React with Vite
 -   **Language**: TypeScript
+-   **Routing**: `react-router-dom` for client-side routing.
 -   **Styling**: Tailwind CSS (configured for class-based dark mode)
 -   **Icons**: `lucide-react` for lightweight SVG icons.
 -   **PDF Export**: `react-to-print` for converting the CV to a printable PDF.
