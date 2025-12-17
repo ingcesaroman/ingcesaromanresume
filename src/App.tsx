@@ -47,6 +47,12 @@ function App() {
     pdf.save(`${cvData.personalData.name.replace(/\s/g, '_')}_CV.pdf`);
   };
 
+  const getFormattedDate = () => {
+    const date = new Date();
+    const options: Intl.DateTimeFormatOptions = { month: 'long', year: 'numeric' };
+    return date.toLocaleString('en-US', options);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div ref={componentRef} className="max-w-4xl mx-auto bg-white shadow-lg">
@@ -96,7 +102,7 @@ function App() {
         <div className="bg-gray-100 p-6 text-center text-sm text-gray-600 border-t-2 border-blue-900">
           <p className="mb-2">This Europass CV has been prepared for the FIMA Program application</p>
           <p>Goethe-Institut Mexico & Federal Employment Agency of Germany</p>
-          <p className="mt-2 text-xs">Date: December 2024 | Format: Europass Standard</p>
+          <p className="mt-2 text-xs">Date: {getFormattedDate()} | Format: Europass Standard</p>
         </div>
       </div>
         {/* Download Button */}
